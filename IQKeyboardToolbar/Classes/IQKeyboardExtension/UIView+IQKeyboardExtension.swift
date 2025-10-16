@@ -343,7 +343,9 @@ private extension IQKeyboardExtension where Base: IQTextInputView {
 
             toolbar.titleBarButton.customView?.frame = .zero
 
-            items.append(toolbar.titleBarButton)
+            if title != nil {
+                items.append(toolbar.titleBarButton)
+            }
 
             // Flexible space
             items.append(IQBarButtonItem.flexibleBarButtonItem)
