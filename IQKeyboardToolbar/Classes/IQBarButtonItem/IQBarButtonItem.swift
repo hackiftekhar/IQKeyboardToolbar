@@ -44,6 +44,7 @@ import UIKit
     internal static let fixedSpaceBarButton: IQBarButtonItem = {
         let barButton = IQBarButtonItem(barButtonSystemItem: .fixedSpace,
                                         target: nil, action: nil)
+        barButton.isSystemItem = true
 #if compiler(>=6.2) // Xcode 26
         if #available(iOS 26.0, *) {
             barButton.hidesSharedBackground = false
