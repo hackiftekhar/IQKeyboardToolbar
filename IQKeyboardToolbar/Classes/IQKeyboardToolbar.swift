@@ -145,18 +145,18 @@ import UIKit
 
     override open func sizeThatFits(_ size: CGSize) -> CGSize {
         var sizeThatFit: CGSize = super.sizeThatFits(size)
-        let height: CGFloat
+        let requiresCompatibility: Bool = Bundle.main.object(forInfoDictionaryKey: "UIDesignRequiresCompatibility") as? Bool ?? false
+        let iOS26: Bool
 #if compiler(>=6.2) // Xcode 26
-            if #available(iOS 26.0, *) {
-                height = 58
-            } else {
-                height = 44
-            }
+        if #available(iOS 26.0, *) {
+            iOS26 = true
+        } else {
+            iOS26 = false
+        }
 #else
-            height = 44
+        iOS26 = false
 #endif
-
-        sizeThatFit.height = height
+        sizeThatFit.height = (iOS26 && !requiresCompatibility) ? 58 : 44
 
         return sizeThatFit
     }

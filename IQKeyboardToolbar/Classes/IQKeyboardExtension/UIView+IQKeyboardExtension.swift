@@ -54,16 +54,18 @@ public extension IQKeyboardExtension where Base: IQTextInputView {
 
             let width: CGFloat = base?.window?.windowScene?.screen.bounds.width ?? 0
 
-            let height: CGFloat
+            let requiresCompatibility: Bool = Bundle.main.object(forInfoDictionaryKey: "UIDesignRequiresCompatibility") as? Bool ?? false
+            let iOS26: Bool
 #if compiler(>=6.2) // Xcode 26
             if #available(iOS 26.0, *) {
-                height = 58
+                iOS26 = true
             } else {
-                height = 44
+                iOS26 = false
             }
 #else
-            height = 44
+            iOS26 = false
 #endif
+            let height: CGFloat = (iOS26 && !requiresCompatibility) ? 58 : 44
 
             let frame = CGRect(origin: .zero, size: .init(width: width, height: height))
             let newToolbar = IQKeyboardToolbar(frame: frame)
