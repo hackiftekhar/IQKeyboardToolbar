@@ -14,7 +14,7 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/hackiftekhar/IQKeyboardCore.git", from: "1.0.8"),
+        .package(url: "https://github.com/hackiftekhar/IQKeyboardCore.git", from: "1.0.9"),
     ],
     targets: [
         .target(name: "IQKeyboardToolbar",
