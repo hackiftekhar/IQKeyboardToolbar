@@ -53,19 +53,17 @@ public extension IQKeyboardExtension where Base: IQTextInputView {
         } else {
 
             let width: CGFloat = base?.window?.windowScene?.screen.bounds.width ?? 0
-
-            let requiresCompatibility: Bool = Bundle.main.object(forInfoDictionaryKey: "UIDesignRequiresCompatibility") as? Bool ?? false
-            let iOS26: Bool
+            let height: CGFloat
 #if compiler(>=6.2) // Xcode 26
-            if #available(iOS 26.0, *) {
-                iOS26 = true
+            let requiresCompatibility: Bool = Bundle.main.object(forInfoDictionaryKey: "UIDesignRequiresCompatibility") as? Bool ?? false
+            if #available(iOS 26.0, *), !requiresCompatibility {
+                height = 58
             } else {
-                iOS26 = false
+                height = 44
             }
 #else
-            iOS26 = false
+            height = 44
 #endif
-            let height: CGFloat = (iOS26 && !requiresCompatibility) ? 58 : 44
 
             let frame = CGRect(origin: .zero, size: .init(width: width, height: height))
             let newToolbar = IQKeyboardToolbar(frame: frame)
@@ -199,7 +197,8 @@ public extension IQKeyboardExtension where Base: IQTextInputView {
 
         let rightConfiguration: IQBarButtonItemConfiguration
 #if compiler(>=6.2) // Xcode 26
-        if #available(iOS 26.0, *) {
+        let requiresCompatibility: Bool = Bundle.main.object(forInfoDictionaryKey: "UIDesignRequiresCompatibility") as? Bool ?? false
+        if #available(iOS 26.0, *), !requiresCompatibility {
             rightConfiguration = IQBarButtonItemConfiguration(image: UIImage(systemName: "checkmark")!, action: action)
         } else {
             rightConfiguration = IQBarButtonItemConfiguration(systemItem: .done, action: action)
@@ -293,7 +292,8 @@ public extension IQKeyboardExtension where Base: IQTextInputView {
                                                              action: nextAction)
         let rightConfiguration: IQBarButtonItemConfiguration
 #if compiler(>=6.2) // Xcode 26
-        if #available(iOS 26.0, *) {
+        let requiresCompatibility: Bool = Bundle.main.object(forInfoDictionaryKey: "UIDesignRequiresCompatibility") as? Bool ?? false
+        if #available(iOS 26.0, *), !requiresCompatibility {
             rightConfiguration = IQBarButtonItemConfiguration(image: UIImage(systemName: "checkmark")!, action: doneAction)
         } else {
             rightConfiguration = IQBarButtonItemConfiguration(systemItem: .done, action: doneAction)
@@ -353,7 +353,8 @@ private extension IQKeyboardExtension where Base: IQTextInputView {
             toolbar.titleBarButton.customView?.frame = .zero
 
 #if compiler(>=6.2) // Xcode 26
-            if #available(iOS 26.0, *) {
+            let requiresCompatibility: Bool = Bundle.main.object(forInfoDictionaryKey: "UIDesignRequiresCompatibility") as? Bool ?? false
+            if #available(iOS 26.0, *), !requiresCompatibility {
                 if !items.isEmpty {
                     items.append(IQBarButtonItem.flexibleBarButtonItem)
                 }

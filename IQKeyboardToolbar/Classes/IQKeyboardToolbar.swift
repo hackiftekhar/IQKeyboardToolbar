@@ -130,7 +130,8 @@ import UIKit
             if privateDoneBarButton == nil {
                 privateDoneBarButton = IQBarButtonItem(title: nil, style: .done, target: nil, action: nil)
 #if compiler(>=6.2) // Xcode 26
-                if #available(iOS 26.0, *) {
+                let requiresCompatibility: Bool = Bundle.main.object(forInfoDictionaryKey: "UIDesignRequiresCompatibility") as? Bool ?? false
+                if #available(iOS 26.0, *), !requiresCompatibility {
                     privateDoneBarButton?.style = .plain
                 }
 #endif
@@ -145,18 +146,18 @@ import UIKit
 
     override open func sizeThatFits(_ size: CGSize) -> CGSize {
         var sizeThatFit: CGSize = super.sizeThatFits(size)
-        let requiresCompatibility: Bool = Bundle.main.object(forInfoDictionaryKey: "UIDesignRequiresCompatibility") as? Bool ?? false
-        let iOS26: Bool
+        let height: CGFloat
 #if compiler(>=6.2) // Xcode 26
-        if #available(iOS 26.0, *) {
-            iOS26 = true
+        let requiresCompatibility: Bool = Bundle.main.object(forInfoDictionaryKey: "UIDesignRequiresCompatibility") as? Bool ?? false
+        if #available(iOS 26.0, *), !requiresCompatibility {
+            height = 58
         } else {
-            iOS26 = false
+            height = 44
         }
 #else
-        iOS26 = false
+        height = 44
 #endif
-        sizeThatFit.height = (iOS26 && !requiresCompatibility) ? 58 : 44
+        sizeThatFit.height = height
 
         return sizeThatFit
     }
